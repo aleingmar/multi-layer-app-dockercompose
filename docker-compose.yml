@@ -6,8 +6,6 @@ services:
     container_name: capa3-mongo
     ports:
       - "27017:27017"
-    environment:
-      - BACKEND_URL=http://capa2-express:3000
     networks:
       - red_app
     volumes:
