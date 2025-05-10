@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  capa3-mongo:
+    build: ./Capa3-mongo
+    container_name: capa3-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - BACKEND_URL=http://capa2-express:3000
+    networks:
+      - red_app
+    volumes:
+      - mongo_data:/data/db
+
+  capa2-express:
+    build: ./Capa2-Express
+    container_name: capa2-express
+    ports:
+      - "3000:3000"
+    networks:
+      - red_app
+    depends_on:
+      - capa3-mongo
+    environment:
+      - MONGO_URL=mongodb://capa3-mongo:27017/miapp
+
+  capa1-nginx:
+    build: ./Capa1-Nginx
+    container_name: capa1-nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - capa2-express
+    networks:
+      - red_app
+
+volumes:
+  mongo_data:
+
+networks:
+  red_app:
+    driver: bridge

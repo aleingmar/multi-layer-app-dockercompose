@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>K1 EngineX</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #1c92d2, #f2fcfe);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 0.3em;
+    }
+    p {
+      font-size: 1.5em;
+    }
+    #mensaje {
+      margin-top: 2em;
+      font-weight: bold;
+      color: #444;
+      background: #fff;
+      padding: 1em 2em;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <h1>🌐 Bienvenido</h1>
+  <p>Esta es la capa de presentación</p>
+
+  <div id="mensaje">Cargando mensaje desde la capa lógica...</div>
+
+  <script>
+    fetch('/api/saludo')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Respuesta no válida del servidor");
+        }
+        return response.json();
+      })
+      .then(data => {
+        document.getElementById('mensaje').textContent = data.mensaje;
+      })
+      .catch(error => {
+        document.getElementById('mensaje').textContent =
+          "⚠️ Error al contactar con la capa lógica.";
+        console.error(error);
+      });
+  </script>
+</body>
+</html>
